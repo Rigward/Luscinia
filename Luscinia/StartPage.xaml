@@ -1,0 +1,30 @@
+﻿<Page x:Class="AudioCloud.Start"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d"
+      d:DesignHeight="300" d:DesignWidth="300"
+	Title="StartPage" >
+
+    <Grid Name="_Grid">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="107*" />
+            <ColumnDefinition Width="129*" />
+        </Grid.ColumnDefinitions>
+
+        <Button Name="_Sender" Click="buttonSender" Content="Sender" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,150,0,0" FontSize="36" FontFamily="Calibri" Foreground="#FF1AC6CF" />
+        <Button Name="_Receiver" Click="buttonReceiver" Content="Receiver" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,150,0,0" FontSize="36" FontFamily="Calibri" Foreground="#FFF19715" />
+        <Image Margin="29,112,59,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Source="logo.png" HorizontalAlignment="Center" Width="212" Height="46"/>
+
+    </Grid>
+
+
+
+
+
+
+</Page>
