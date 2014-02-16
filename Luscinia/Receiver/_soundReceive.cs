@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using NAudio.Wave;
 using System.Net;
 using System.Net.Sockets;
-namespace AudioCloud
+namespace Luscinia
 {
     class _soundReceive
     {

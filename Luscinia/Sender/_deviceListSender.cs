@@ -9,23 +9,20 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AudioCloud
+namespace Luscinia
 {
     public class _deviceListSender
     {
         public Dictionary<string,string> List;
         public Thread Thrd;
-
         UdpClient UDP;
         byte[] data;
         Socket socket;
         IPEndPoint senderIP;
         IPEndPoint receiverIP;
         EndPoint Remote;
-
         public _deviceListSender()
         {
-
             // Listen for answer
             data = new byte[8];      //array that will save ping message 
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);     //create new socket
@@ -39,7 +36,7 @@ namespace AudioCloud
             { }
 
             senderIP = new IPEndPoint(IPAddress.Any, 0);     //end point to answer
-            Remote = (EndPoint)(senderIP);
+            Remote = (EndPoint)(senderIP);				//Must not be null
 
             List = new Dictionary<string, string>();
             
@@ -51,12 +48,13 @@ namespace AudioCloud
             this.PingSend();
         }
 
-        private void _getHostName(string IP, Dictionary<string,string> DataList)
+        private void _getHostName(string IP)
         {
+			string test = Remote.ToString();
             string host = IP.Remove(IP.IndexOf(":"), IP.Length - IP.IndexOf(":"));
             IPAddress hostIPAddress = IPAddress.Parse(host);
             IPHostEntry hostName = Dns.GetHostEntry(hostIPAddress);
-            DataList.Add(hostName.HostName, hostIPAddress.ToString());
+            List.Add(hostName.HostName, hostIPAddress.ToString());
         }
 
         public void PingSend()
@@ -74,9 +72,7 @@ namespace AudioCloud
         private void Listen()
         { 
             int notAvailable = 0;
-
             Thread.Sleep(100);
-
             while(notAvailable < 10)
             {
                 try
@@ -84,7 +80,7 @@ namespace AudioCloud
                     if (socket.Available > 0)
                     {
                         socket.ReceiveFrom(data, ref Remote);       //read message to data
-                        _getHostName(Remote.ToString(), List);
+                        _getHostName(Remote.ToString());
                     }
                     else notAvailable++;
 
@@ -97,7 +93,7 @@ namespace AudioCloud
                     }
                 }
             } 
-            socket.Dispose();
+            //socket.Dispose();
             socket.Close();
         }
 

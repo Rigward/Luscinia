@@ -16,14 +16,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AudioCloud
+namespace Luscinia
 {
     /// <summary>
     /// Interaction logic for Receiver.xaml
     /// </summary>
     public partial class receiver : Page
     {
-        private _sizes Sizes;
         private Thread verifyThrd;
         private Thread volumeThrd;
         private string IP;
@@ -36,8 +35,6 @@ namespace AudioCloud
         public receiver()
         {
             InitializeComponent();
-
-            Sizes = new _sizes();
             _Grid.Height = Sizes.Height;
             _Grid.Width = Sizes.Width;
             volumeController = new _volumeController();
@@ -45,14 +42,14 @@ namespace AudioCloud
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            AudioCloud.Receiver.receiverListener receiverListener = new AudioCloud.Receiver.receiverListener(Password.GetLineText(0));
+            Luscinia.Receiver.receiverListener receiverListener = new Luscinia.Receiver.receiverListener(Password.GetLineText(0));
             this.NavigationService.Navigate(receiverListener);
         }
 
         private void ButtonStartPage(object sender, RoutedEventArgs e)
         {
 
-            AudioCloud.Start startpage = new AudioCloud.Start();
+            Luscinia.Start startpage = new Luscinia.Start();
             this.NavigationService.Navigate(startpage);
         }
 

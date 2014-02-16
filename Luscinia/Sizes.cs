@@ -4,24 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AudioCloud
+namespace Luscinia
 {
-    class _sizes
+    static class Sizes
     {
-        private double _Height;
-        private double _Width;
-        public double Height 
+        private static uint _Height;
+        private static uint _Width;
+        public static double Height 
         {
-            set { ;} 
             get { return _Height; } 
         }
-        public double Width 
+        public static double Width 
         {
-            set { ;}
             get { return _Width; }
         }
 
-        public _sizes()
+        static Sizes()
         { 
             _Height = 580;
             _Width = 540;

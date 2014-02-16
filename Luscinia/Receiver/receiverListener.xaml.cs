@@ -16,14 +16,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AudioCloud.Receiver
+namespace Luscinia.Receiver
 {
     /// <summary>
     /// Interaction logic for receiverListener.xaml
     /// </summary>
     public partial class receiverListener : Page
     {
-        private _sizes Sizes;
         private Thread verifyThrd;
         private Thread volumeThrd;
         private string IP;
@@ -36,8 +35,6 @@ namespace AudioCloud.Receiver
         public receiverListener(string _Password)
         {
             InitializeComponent();
-
-            Sizes = new _sizes();
             _Grid.Height = Sizes.Height;
             _Grid.Width = Sizes.Width;
 
@@ -92,8 +89,6 @@ namespace AudioCloud.Receiver
             EndPoint Remote = (EndPoint)(senderIP);
 
             byte[] data = new byte[512];      //array that will save ping message
-            int size = 0;
-
             do
             {
                 if (socket.Available > 0)
@@ -105,8 +100,8 @@ namespace AudioCloud.Receiver
                 Thread.CurrentThread.Join(0);
             } while (true);
 
-            socket.Dispose();
-            socket.Close();
+            //socket.Dispose();
+            //socket.Close();
         }
     }
 }

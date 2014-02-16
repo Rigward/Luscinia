@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AudioCloud.Sender
+namespace Luscinia.Sender
 {
     /// <summary>
     /// Interaction logic for SenderController.xaml
@@ -23,24 +23,18 @@ namespace AudioCloud.Sender
     {
         private Thread Thrd;
         private _passCheckSender passCheckSender;
-        private _sizes Sizes;
         private string IP;     //for forwarding value to next page
  
         public SenderController(string _IP)
         {
             InitializeComponent();
-
-            Sizes = new _sizes();
-
             _Grid.Height = Sizes.Height;
             _Grid.Width = Sizes.Width;
-
             IP = _IP;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void SendPassword(object sender, RoutedEventArgs e)
         {
-            
             passCheckSender = new _passCheckSender(IP, Password.GetLineText(0));
             Thrd = new Thread(verifyingCompleted);
             Thrd.Name = "verifyingCheck";
@@ -63,7 +57,7 @@ namespace AudioCloud.Sender
             {
                 Dispatcher.BeginInvoke((Action)( () =>
                  {
-                     AudioCloud.Sender.SenderCapture _SenderCapture = new AudioCloud.Sender.SenderCapture(IP, passCheckSender.Volume);
+                     Luscinia.Sender.SenderCapture _SenderCapture = new Luscinia.Sender.SenderCapture(IP, passCheckSender.Volume);
                      this.NavigationService.Navigate(_SenderCapture);
                  } ) 
                     );

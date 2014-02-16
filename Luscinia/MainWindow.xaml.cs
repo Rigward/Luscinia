@@ -13,19 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AudioCloud
+namespace Luscinia
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        private _sizes Sizes;
-
         public MainWindow()
         {
             InitializeComponent();
-            Sizes = new _sizes();
             _Frame.Height = Sizes.Height;
             _Frame.Width = Sizes.Width;
         }

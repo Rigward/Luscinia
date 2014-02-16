@@ -13,25 +13,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AudioCloud
+namespace Luscinia
 {
     /// <summary>
     /// Interaction logic for Start.xaml
     /// </summary>
     public partial class Start : Page
     {
-        private _sizes Sizes;
         public Start()
         {
             InitializeComponent();
-            Sizes = new _sizes();
             _Grid.Height = Sizes.Height;
             _Grid.Width = Sizes.Width;
-            //_Receiver.Height = Sizes.Height-20;
-            //_Receiver.Width = Sizes.Width/2 - 10;
-            //_Sender.Height = Sizes.Height-20;
-            //_Sender.Width = Sizes.Width/2 - 10;
-
             _Receiver.Height = Sizes.Height/8;
             _Receiver.Width = Sizes.Width / 3;
             _Sender.Height = Sizes.Height/8;

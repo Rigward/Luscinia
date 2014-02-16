@@ -73,7 +73,7 @@
     <Compile Include="Receiver\_volumeController.cs" />
     <Compile Include="Sender\SenderCapture.xaml.cs">
       <DependentUpon>SenderCapture.xaml</DependentUpon>
-    </Compile>
+	</Compile>
     <Compile Include="Sender\SenderController.xaml.cs">
       <DependentUpon>SenderController.xaml</DependentUpon>
     </Compile>
@@ -85,6 +85,9 @@
     <Compile Include="Sizes.cs" />
     <Compile Include="StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TabsWindow.xaml.cs">
+      <DependentUpon>TabsWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -121,6 +124,10 @@
     <Page Include="StartPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TabsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

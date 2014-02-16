@@ -5,12 +5,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AudioCloud
+namespace Luscinia
 {
     class _volumeController
     {
         public float Volume;
-
         public _volumeController()
         {
             try
@@ -44,7 +43,7 @@ namespace AudioCloud
                 {
                     try
                     {
-                        System.Diagnostics.Debug.Print(dev.FriendlyName);
+                        //System.Diagnostics.Debug.Print(dev.FriendlyName);
                         dev.AudioEndpointVolume.MasterVolumeLevelScalar = vol;
                         break;
                     }

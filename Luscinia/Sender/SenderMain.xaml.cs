@@ -14,31 +14,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
-namespace AudioCloud
+namespace Luscinia
 {
     /// <summary>
     /// Interaction logic for Sender.xaml
     /// </summary>
     public partial class SenderMain : Page
     {
-        private _sizes Sizes;
         private _deviceListSender _deviceList;
         public SenderMain()
         {
             InitializeComponent();
-            
-            Sizes = new _sizes();
-            
             _Grid.Height = Sizes.Height;
-            _Grid.Width = Sizes.Width;
-            
+            _Grid.Width = Sizes.Width;           
             DeviceList.Height = Sizes.Height / 2 + 30;
             DeviceList.Width = Sizes.Width / 1.5;
-
             NumberColumn.Width = DeviceList.Width / 3 - 90;
             NameColumn.Width = DeviceList.Width / 3 + 45;
             IPColumn.Width = DeviceList.Width / 3 + 45;
-
             SearchDevice();
         }
         private void SearchDevice()
@@ -75,20 +68,23 @@ namespace AudioCloud
 
         private void DeviceList_MouseDoubleClick(object sender, RoutedEventArgs e)
         {
-            UdpClient UDP = new UdpClient();
-            IPEndPoint IP = new IPEndPoint(IPAddress.Parse(_deviceList.List.Values.ElementAt(DeviceList.SelectedIndex)), 810);       //create end point
-            UDP.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-            byte[] pingTest = Encoding.ASCII.GetBytes("stop");
-            UDP.Send(pingTest, pingTest.Length, IP);        //send message
-            UDP.Close(); 
+			if (DeviceList.SelectedItem != null)		//Preventing empty item usage
+			{
+				UdpClient UDP = new UdpClient();
+				IPEndPoint IP = new IPEndPoint(IPAddress.Parse(_deviceList.List.Values.ElementAt(DeviceList.SelectedIndex)), 810);       //create end point
+				UDP.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+				byte[] pingTest = Encoding.ASCII.GetBytes("stop");
+				UDP.Send(pingTest, pingTest.Length, IP);        //send message
+				UDP.Close();
 
-            AudioCloud.Sender.SenderController _SenderController = new AudioCloud.Sender.SenderController(_deviceList.List.Values.ElementAt(DeviceList.SelectedIndex));
-            this.NavigationService.Navigate(_SenderController);
+				Luscinia.Sender.SenderController _SenderController = new Luscinia.Sender.SenderController(_deviceList.List.Values.ElementAt(DeviceList.SelectedIndex));
+				this.NavigationService.Navigate(_SenderController);
+			}
         }
 
         private void ButtonToStartPage(object sender, RoutedEventArgs e)
-        {
-            AudioCloud.Start startpage = new AudioCloud.Start();
+        {	
+            Luscinia.Start startpage = new Luscinia.Start();
             this.NavigationService.Navigate(startpage);
         }
 
