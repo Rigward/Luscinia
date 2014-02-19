@@ -39,7 +39,7 @@ namespace Luscinia
             DeviceList.Items.Clear();
             try
             {
-                _deviceList = new _deviceListSender();
+                //_deviceList = new _deviceListSender();
             }
             catch
             {
@@ -76,7 +76,6 @@ namespace Luscinia
 				byte[] pingTest = Encoding.ASCII.GetBytes("stop");
 				UDP.Send(pingTest, pingTest.Length, IP);        //send message
 				UDP.Close();
-
 				Luscinia.Sender.SenderController _SenderController = new Luscinia.Sender.SenderController(_deviceList.List.Values.ElementAt(DeviceList.SelectedIndex));
 				this.NavigationService.Navigate(_SenderController);
 			}
@@ -84,8 +83,8 @@ namespace Luscinia
 
         private void ButtonToStartPage(object sender, RoutedEventArgs e)
         {	
-            Luscinia.Start startpage = new Luscinia.Start();
-            this.NavigationService.Navigate(startpage);
+            //Luscinia.Start startpage = new Luscinia.Start();	//Old return back button
+            //this.NavigationService.Navigate(startpage);
         }
 
     }

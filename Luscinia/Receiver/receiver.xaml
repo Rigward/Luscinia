@@ -22,7 +22,7 @@
         
         <Button Content="connect" HorizontalAlignment="Center" Margin="0,170,0,0" VerticalAlignment="Center" Width="75" Click="Button_Click"/>
         
-        <TextBlock HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="enter password:" VerticalAlignment="Center" FontSize="20" FontFamily="Calibri"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0" TextWrapping="Wrap" Text="enter password:" VerticalAlignment="Center" FontSize="20" FontFamily="Calibri" Name="Explain"/>
         <Button Content="&lt;-" HorizontalAlignment="Left" Margin="28,24,0,0" VerticalAlignment="Top" Width="75" Click=" ButtonStartPage"/>
 
 

@@ -49,8 +49,8 @@ namespace Luscinia
         private void ButtonStartPage(object sender, RoutedEventArgs e)
         {
 
-            Luscinia.Start startpage = new Luscinia.Start();
-            this.NavigationService.Navigate(startpage);
+            //Luscinia.Start startpage = new Luscinia.Start();	//Old return back button
+            //this.NavigationService.Navigate(startpage);
         }
 
     }

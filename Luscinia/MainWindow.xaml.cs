@@ -20,17 +20,33 @@ namespace Luscinia
     /// </summary>
     public partial class MainWindow : Window
     {
+		private SenderView Sender;
+		private receiver Receiver;
+		private Page[] Pages;
+		int lol = 5;
         public MainWindow()
         {
-            InitializeComponent();
-            _Frame.Height = Sizes.Height;
-            _Frame.Width = Sizes.Width;
+			Sender = new SenderView();
+			Receiver = new receiver();
+			Pages = new Page[] { Sender, Receiver };
+			InitializeComponent();
         }
 
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
-            App.Current.Shutdown();
-        }
+		private void MenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			Page NextPage;
+			switch ((e.Source as MenuItem).Name)
+			{
+				case "SenderButton": { NextPage = Pages[0]; break; }
+				case "ReceiverButton": { NextPage = Pages[1]; break; }
+				default: { return; }
+			}
+			MainFrame.Navigate(NextPage);
+		}
+		protected override void OnClosed(EventArgs e)
+		{
+			base.OnClosed(e);
+			App.Current.Shutdown();
+		}
     }
 }

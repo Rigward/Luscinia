@@ -22,7 +22,6 @@ namespace Luscinia.Sender
 	/// Interaction logic for SenderController.xaml
 	/// </summary>
 
-
 	public partial class SenderCapture : Page
 	{
 		private IPEndPoint ReceiverAudioAddress;
@@ -45,15 +44,6 @@ namespace Luscinia.Sender
 			speakerLevel.Value = _Level * 100;//TODO: optimize
 			Level = _Level;
 
-		}
-
-		private void Cleanup()
-		{
-			if (waveIn != null) // working around problem with double raising of RecordingStopped
-			{
-				waveIn.Dispose();
-				waveIn = null;
-			}
 		}
 
 		void OnDataAvailable(object sender, WaveInEventArgs e)
@@ -79,8 +69,17 @@ namespace Luscinia.Sender
 				Cleanup();
 				if (e.Exception != null)
 				{
-					//MessageBox.Show(String.Format("A problem was encountered during recording {0}", e.Exception.Message));
+					MessageBox.Show(String.Format("A problem was encountered during recording {0}", e.Exception.Message));		//TODO: remove in future
 				}
+			}
+		}
+
+		private void Cleanup()
+		{
+			if (waveIn != null) // working around problem with double raising of RecordingStopped
+			{
+				waveIn.Dispose();
+				waveIn = null;
 			}
 		}
 
@@ -95,7 +94,7 @@ namespace Luscinia.Sender
 				{
 					try
 					{
-						System.Diagnostics.Debug.Print(dev.FriendlyName);
+						//System.Diagnostics.Debug.Print(dev.FriendlyName);		//TODO: Understand
 						dev.AudioEndpointVolume.Mute = flag;
 					}
 					catch { }
@@ -111,23 +110,16 @@ namespace Luscinia.Sender
 			mute(true);
 			udpSender = new UdpClient();
 			waveIn = new WasapiLoopbackCapture();       //assigning waveIn
-			waveIn.DataAvailable += OnDataAvailable;    //TODO: understand what this line does
-			waveIn.RecordingStopped += OnRecordingStopped;  //TODO: understand, what this line does
+			waveIn.DataAvailable += OnDataAvailable;    
+			waveIn.RecordingStopped += OnRecordingStopped;
 			waveIn.StartRecording();
 			udpSender.Connect(ReceiverAudioAddress);
 		}
-
-		void StopRecording()
-		{
-			//Debug.WriteLine("StopRecording");
-			waveIn.StopRecording();
-		}
-
 		private void ButtonStopCapture(object sender, RoutedEventArgs e)
 		{
 			if (waveIn != null)
 			{
-				StopRecording();
+				waveIn.StopRecording();
 			}
 			mute(false);
 			try

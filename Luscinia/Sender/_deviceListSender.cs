@@ -13,44 +13,35 @@ namespace Luscinia
 {
     public class _deviceListSender
     {
+		//ping sending variables
+		UdpClient PingSender;   // Create UDP client and send message to broadcast
+		UdpClient PingReceiver;
+		byte[] PingMessage;
+		//End of ping sending variables
         public Dictionary<string,string> List;
         public Thread Thrd;
-        UdpClient UDP;
         byte[] data;
-        Socket socket;
-        IPEndPoint senderIP;
-        IPEndPoint receiverIP;
-        EndPoint Remote;
+        IPEndPoint Remote;
         public _deviceListSender()
         {
+			//Broadcast message sender configurations
+
+			PingMessage = Encoding.ASCII.GetBytes("ping");
+			//End of broadcast sender settings
+			//response receiver configuration
+			
+			//end of response receiver configuration
             // Listen for answer
             data = new byte[8];      //array that will save ping message 
-            socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);     //create new socket
-
-            receiverIP = new IPEndPoint(IPAddress.Any, 811);     //end point to listen 811
-            try 
-            { 
-                socket.Bind(receiverIP); 
-            }        //listen 811 port
-            catch 
-            { }
-
-            senderIP = new IPEndPoint(IPAddress.Any, 0);     //end point to answer
-            Remote = (EndPoint)(senderIP);				//Must not be null
-
+            Remote = new IPEndPoint(IPAddress.Any, 811);     //SAVES REAL PING RESPONSER`S ADRESS, CAN WRITE ANYTHING
             List = new Dictionary<string, string>();
-            
-            Thrd = new Thread(Listen);
-            Thrd.Name = "FindDevices";
-            
-            Thrd.Start();
-            
-            this.PingSend();
+           
+            PingSend();
         }
 
-        private void _getHostName(string IP)
+        private void getHostName(string IP)
         {
-			string test = Remote.ToString();
+			//string test = Remote.ToString();
             string host = IP.Remove(IP.IndexOf(":"), IP.Length - IP.IndexOf(":"));
             IPAddress hostIPAddress = IPAddress.Parse(host);
             IPHostEntry hostName = Dns.GetHostEntry(hostIPAddress);
@@ -59,43 +50,57 @@ namespace Luscinia
 
         public void PingSend()
         {
-            // Create UDP client and send message to broadcast
-            UDP = new UdpClient();
-            UDP.EnableBroadcast = true;     //enable broadcast send
-            IPEndPoint IP = new IPEndPoint(IPAddress.Broadcast, 810);       //create end point
-            UDP.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
-            byte[] pingTest = Encoding.ASCII.GetBytes("ping");
-            UDP.Send(pingTest, pingTest.Length, IP);        //send message
-            UDP.Close(); 
+			List.Clear();
+			PingSender = new UdpClient();
+			PingSender.EnableBroadcast = true;
+			PingSender.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);//TODO: REMAKE WHOLE CLASS TO HANDLE BUSY PORT
+			try
+			{
+				PingSender.Connect(IPAddress.Broadcast, 810);	//magic number - receiver`s port
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine(e.ToString());
+			}
+            PingSender.Send(PingMessage, PingMessage.Length);        //send message
+			Thrd = new Thread(Listen);
+			Thrd.Start(); 
+            PingSender.Close();
         }
+		private void Listen()
+		{
+			try
+			{
+				PingReceiver = new UdpClient(811);
+			}
+			catch (Exception)
+			{
+			}
 
-        private void Listen()
-        { 
-            int notAvailable = 0;
-            Thread.Sleep(100);
-            while(notAvailable < 10)
-            {
-                try
-                {
-                    if (socket.Available > 0)
-                    {
-                        socket.ReceiveFrom(data, ref Remote);       //read message to data
-                        _getHostName(Remote.ToString());
-                    }
-                    else notAvailable++;
-
-                }
-                catch (SocketException e)
-                {
-                    if (e.SocketErrorCode == SocketError.TimedOut)
-                    {
-                        notAvailable++;
-                    }
-                }
-            } 
-            //socket.Dispose();
-            socket.Close();
-        }
+			PingReceiver.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+			int notAvailable = 0;
+			Thread.Sleep(100);
+			while (notAvailable < 10)
+			{
+				try
+				{
+					if (PingReceiver.Available > 0)
+					{
+						data = PingReceiver.Receive(ref Remote);      //read message to data
+						getHostName(Remote.ToString());
+					}
+					else notAvailable++;
+				}
+				catch (SocketException e)
+				{
+					if (e.SocketErrorCode == SocketError.TimedOut)
+					{
+						notAvailable++;
+					}
+				}
+			}
+			PingReceiver.Close();
+		}
 
     }
 }
